@@ -11,10 +11,14 @@ mongoose
     .catch((err) => {
         console.log(`An error was occured: ${err}`)
     })
-    
+
 const app = express()
 
 
 app.listen(3003, () => {
     console.log("Server Started")
+})
+
+app.get("/test", (req, res) => {
+    res.send("Hello")
 })
