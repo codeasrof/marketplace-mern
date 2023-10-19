@@ -1,15 +1,15 @@
 
 import {useState} from 'react'
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 
 const SignUp = () => {  
   const [formData, setFormData] = useState({})
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     e.preventDefault();
-    setLoading(true)
     setFormData(
       {
         ...formData,
@@ -21,22 +21,31 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    const response  = await fetch("http://localhost:3003/api/auth/signup", formData,{
-      method: "POST",
-      headers:{
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData)
-    })
-
-    const data = await response.json()
-    if(data.success === false){
-      setLoading(false)
-      setError(data.message)
-      return;
+    try {
+      setLoading(true)
+      const response  = await fetch("http://localhost:3003/api/auth/signup", {
+        method: "POST",
+        headers:{
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      })
+  
+      const data = await response.json()
+  
+      if(data.success === false){
+        setLoading(false)
+        setError(data.message)
+        return;
+      }
+      setLoading(false);
+      setError(null);
+      navigate('/signin');
+    } catch (error) {
+      setLoading(false);
+      setError(error.message);
     }
-    setLoading(false)
-    console.log(formData)
+    
   }
 
   return (
@@ -55,10 +64,10 @@ const SignUp = () => {
 
             <input 
               onChange={handleChange}
-              id='name'
+              id='username'
               className='w-[80vw] sm:w-[400px] my-3 border-b-[1.5px] pl-1 pb-2 focus:outline-none text-sm'
               type="text" 
-              name="name" 
+              name="username" 
               placeholder='Full name' 
             />
 

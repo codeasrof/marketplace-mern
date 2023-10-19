@@ -23,7 +23,7 @@ app.listen(3003, () => {
 })
 
 app.use("/api/user", userRouter)
-app.use("/api/auth", authRouter)
+app.use("/api/auth/", authRouter)
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500
