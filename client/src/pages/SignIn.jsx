@@ -154,7 +154,9 @@ const SignIn = () => {
             <div>
               <p>Don't have account? <span className='text-amber-500'><Link to="signup">create</Link></span></p>
             </div>
-            {error && <p className='text-red-500'>{error}</p>}
+            {error && 
+            <p className='text-red-500'>{error}
+            </p>}
         </div>
       </section>
   )
